@@ -1,0 +1,58 @@
+[
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\Source\\TheWhitePages\\Private\\CoreGameContent\\PortalMaster.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\.vscode\\compileCommands_Default\\TheWhitePages.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\Source\\TheWhitePages\\Private\\DevelopmentContent\\PlayerAbilitiesComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\.vscode\\compileCommands_Default\\TheWhitePages.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\Source\\TheWhitePages\\Public\\CoreGameContent\\PortalMaster.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\.vscode\\compileCommands_Default\\TheWhitePages.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\Source\\TheWhitePages\\Public\\DevelopmentContent\\PlayerAbilitiesComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\.vscode\\compileCommands_Default\\TheWhitePages.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\Source\\TheWhitePages\\TheWhitePages.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\.vscode\\compileCommands_Default\\TheWhitePages.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\Source\\TheWhitePages\\TheWhitePages.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\.vscode\\compileCommands_Default\\TheWhitePages.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\Source\\TheWhitePages\\TheWhitePages.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\TheWhitePages\\.vscode\\compileCommands_Default\\TheWhitePages.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	}
+]

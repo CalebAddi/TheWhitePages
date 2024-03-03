@@ -1,0 +1,58 @@
+[
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\Source\\SilenceIsDeafening\\Private\\CoreGameContent\\PortalMaster.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\.vscode\\compileCommands_SilenceIsDeafening\\SilenceIsDeafening.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\Source\\SilenceIsDeafening\\Private\\DevelopmentContent\\PlayerAbilitiesComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\.vscode\\compileCommands_SilenceIsDeafening\\SilenceIsDeafening.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\Source\\SilenceIsDeafening\\Public\\CoreGameContent\\PortalMaster.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\.vscode\\compileCommands_SilenceIsDeafening\\SilenceIsDeafening.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\Source\\SilenceIsDeafening\\Public\\DevelopmentContent\\PlayerAbilitiesComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\.vscode\\compileCommands_SilenceIsDeafening\\SilenceIsDeafening.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\Source\\SilenceIsDeafening\\SilenceIsDeafening.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\.vscode\\compileCommands_SilenceIsDeafening\\SilenceIsDeafening.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\Source\\SilenceIsDeafening\\SilenceIsDeafening.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\.vscode\\compileCommands_SilenceIsDeafening\\SilenceIsDeafening.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\Source\\SilenceIsDeafening\\SilenceIsDeafening.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.37.32822\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\caleb\\OneDrive\\Documents\\Unreal Projects\\SilenceIsDeafening\\.vscode\\compileCommands_SilenceIsDeafening\\SilenceIsDeafening.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	}
+]
