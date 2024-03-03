@@ -7,7 +7,6 @@ UPlayerAbilitiesComponent::UPlayerAbilitiesComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	CharacterOwner = Cast<ACharacter>(GetOwner());
-	IsMoving = false;
 }
 
 #pragma region "BeginPlay / Event Tick"
@@ -16,6 +15,7 @@ UPlayerAbilitiesComponent::UPlayerAbilitiesComponent()
 void UPlayerAbilitiesComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	MovementComponentRef = CharacterOwner ? CharacterOwner->GetCharacterMovement() : nullptr;
 }
 
 
@@ -68,17 +68,23 @@ void UPlayerAbilitiesComponent::RegenStamina()
 
 void UPlayerAbilitiesComponent::StartSprint()
 {
-	MovementComponentRef->MaxWalkSpeed = SprintSpeed;
-	IsSprinting = true;
-	DrainStamina();
+	if (MovementComponentRef)
+	{
+		MovementComponentRef->MaxWalkSpeed = SprintSpeed;
+		IsSprinting = true;
+		DrainStamina();
+	}
 }
 
 void UPlayerAbilitiesComponent::StopSprint()
 {
-	MovementComponentRef->MaxWalkSpeed = WalkingSpeed;
-	IsSprinting = false;
-	float RegenDelayAmount = 1.f;
-	GetWorld()->GetTimerManager().SetTimer(StaminaTimeHandle, this, &UPlayerAbilitiesComponent::RegenDelay, RegenDelayAmount, false);
+	if (MovementComponentRef)
+	{
+		MovementComponentRef->MaxWalkSpeed = WalkingSpeed;
+		IsSprinting = false;
+		float RegenDelayAmount = 1.f;
+		GetWorld()->GetTimerManager().SetTimer(StaminaTimeHandle, this, &UPlayerAbilitiesComponent::RegenDelay, RegenDelayAmount, false);
+	}
 }
 
 #pragma endregion
@@ -87,7 +93,7 @@ void UPlayerAbilitiesComponent::StopSprint()
 
 void UPlayerAbilitiesComponent::StartDash()
 {
-	if (!CanDash || IsDashing || CurrStamina <= 25.f)
+	if (!CanDash || IsDashing || CurrStamina <= 15.f || !CharacterOwner)
 		return;
 
 	FVector DashDir;
@@ -153,6 +159,22 @@ void UPlayerAbilitiesComponent::StaminaLoopRegain()
 void UPlayerAbilitiesComponent::RegenDelay()
 {
 	RegenStamina();
+}
+
+void UPlayerAbilitiesComponent::KillPlayer(const bool& IsPlayerDead)
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+
+	if (CharacterOwner && PlayerController && IsPlayerDead)
+	{
+		CharacterOwner->DisableInput(PlayerController);
+		CharacterOwner->K2_DestroyActor();
+	}
+
+	if (GEngine)
+	{
+		GEngine->ForceGarbageCollection(true);
+	}
 }
 
 #pragma endregion
