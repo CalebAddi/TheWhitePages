@@ -71,8 +71,7 @@ protected: // Variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sprint)
 	float WalkingSpeed = 400.f;
 
-protected: // Functions
-
+// Functions
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable, Category = Stamina)
@@ -80,6 +79,9 @@ protected: // Functions
 
 	UFUNCTION(BlueprintCallable, Category = Stamina)
 	void RegenStamina();
+
+	UFUNCTION(BlueprintCallable, Category = Health)
+	void KillPlayer(const bool& IsPlayerDead);
 
 private: // Variables
 	UPROPERTY()
@@ -111,8 +113,7 @@ private: // Variables
 
 	ACharacter* CharacterOwner;
 
-private: // Functions
-
+// Functions
 	UFUNCTION(BlueprintCallable, meta=(AllowPrivateAccess = true), Category = Sprint)
 	void StartSprint();
 
