@@ -28,16 +28,57 @@ void UPlayerAbilitiesComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 #pragma endregion
 
 #pragma region "Stamina"
+
+void UPlayerAbilitiesComponent::DrainStamina()
+{
+	StaminaRegenValues.IsRegenStamina = false;
+
+	float StaminaClampCalc = CurrStamina - StaminaDrainValues.StaminaDrainAmount * StaminaDrainValues.StaminaDrainAdjustCalc;
+	CurrStamina = FMath::Clamp(StaminaClampCalc, 0.f, MaxStamina);
+
+	if (CurrStamina == 0.f)
+	{
+		StopSprint();
+		StaminaDrainValues.IsDrainingStamina = false;
+	}
+
+	else if (IsSprinting && IsMoving && !StaminaRegenValues.IsRegenStamina)
+	{
+		float SprintDelay = 0.05f;
+		GetWorld()->GetTimerManager().SetTimer(StaminaTimeHandle, this, &UPlayerAbilitiesComponent::StaminaLoopDrain, SprintDelay, false);
+	}
+
+	else
+	{
+		StaminaDrainValues.IsDrainingStamina = false;
+	}
+}
+
+void UPlayerAbilitiesComponent::RegenStamina()
+{
+	float StaminaClampCalc = CurrStamina + StaminaRegenValues.StaminaRegenAmount * StaminaRegenValues.StaminaRegenAdjustCalc;
+	CurrStamina = FMath::Clamp(StaminaClampCalc, 0.f, MaxStamina);
+
+	if (CurrStamina != 0 && !IsSprinting && !StaminaDrainValues.IsDrainingStamina)
+	{
+		float SprintDelay = 0.55f;
+		GetWorld()->GetTimerManager().SetTimer(StaminaTimeHandle, this, &UPlayerAbilitiesComponent::StaminaLoopRegain, SprintDelay, false);
+	}
+}
+
 void UPlayerAbilitiesComponent::StartSprint()
 {
 	MovementComponentRef->MaxWalkSpeed = SprintSpeed;
 	IsSprinting = true;
+	DrainStamina();
 }
 
 void UPlayerAbilitiesComponent::StopSprint()
 {
 	MovementComponentRef->MaxWalkSpeed = WalkingSpeed;
 	IsSprinting = false;
+	float RegenDelayAmount = 1.f;
+	GetWorld()->GetTimerManager().SetTimer(StaminaTimeHandle, this, &UPlayerAbilitiesComponent::RegenDelay, RegenDelayAmount, false);
 }
 
 #pragma endregion
@@ -83,6 +124,35 @@ void UPlayerAbilitiesComponent::StopDash()
 void UPlayerAbilitiesComponent::ResetDashCooldown()
 {
 	CanDash = true;
+}
+
+#pragma endregion
+
+#pragma region "Helper Functions"
+
+void UPlayerAbilitiesComponent::StaminaLoopDrain()
+{
+	StaminaDrainValues.IsDrainingStamina = true;
+	DrainStamina();
+}
+
+void UPlayerAbilitiesComponent::StaminaLoopRegain()
+{
+	StaminaRegenValues.IsRegenStamina = true;
+
+	if (CurrStamina == MaxStamina)
+	{
+		StaminaRegenValues.IsRegenStamina = false;
+	}
+	else
+	{
+		RegenStamina();
+	}
+}
+
+void UPlayerAbilitiesComponent::RegenDelay()
+{
+	RegenStamina();
 }
 
 #pragma endregion
