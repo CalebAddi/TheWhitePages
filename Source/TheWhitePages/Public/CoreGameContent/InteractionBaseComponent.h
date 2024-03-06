@@ -34,7 +34,7 @@ protected:
 	float CurrentHoldDuration = 0.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Interact)
-	float InteractHoldTime = 0.f;
+	float InteractHoldingTime = 0.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Interact)
 	float InteractDistance = 0.f;
@@ -56,8 +56,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Hit Interact")
 	void DisableHitRecheck();
 
-	UFUNCTION(BlueprintCallable, Category = "Override Function")
-	void UpdateInteractState(bool HitResult); // not using the & gives it a checkbox input
+	// UFUNCTION(BlueprintCallable, Category = "Override Function")
+	// void UpdateInteractState(bool HitResult); // not using the & gives it a checkbox input
 
 private:	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, meta=(AllowPrivateAccess = true), Category = "Hit Interact")

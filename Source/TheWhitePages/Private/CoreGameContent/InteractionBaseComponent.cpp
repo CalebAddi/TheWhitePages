@@ -84,10 +84,10 @@ void UInteractionBaseComponent::GetRecheckHit(bool& ReturnValue)
 		ReturnValue = false;
 }
 
-void UInteractionBaseComponent::UpdateInteractState(bool HitResult)
-{
-	// Purpose of this function is to be overriden
-}
+// void UInteractionBaseComponent::UpdateInteractState(bool HitResult)
+// {
+// 	// Purpose of this function is to be overriden
+// }
 
 void UInteractionCoreComponent::ReTriggerDelay()
 {
