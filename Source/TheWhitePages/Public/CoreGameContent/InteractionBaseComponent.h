@@ -90,6 +90,18 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Interact Ticks")
 	float UpdateFrequency;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
+	bool IsButton;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
+	bool IsPickup;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
+	bool IsHoldableItem;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Interact Ticks")
+	bool IsItemPickedUp;
+
 
 	// Functions
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
@@ -97,6 +109,12 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void ReTriggerDelay();
+
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+	void DestroyItemOnPickup(const bool& DestroyItem, AActor* ItemToDestroy);
+
+	UFUNCTION(BlueprintCallable, Category = "Helper Function")
+	void ResetIsItemPickedUp();
 };
 
 #pragma endregion

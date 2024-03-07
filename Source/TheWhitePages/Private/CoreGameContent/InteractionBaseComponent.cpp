@@ -33,6 +33,26 @@ void UInteractionCoreComponent::TraceForInteract(const FVector& Start, const FVe
 	
 }
 
+void UInteractionCoreComponent::DestroyItemOnPickup(const bool& DestroyItem, AActor* ItemToDestroy)
+{
+	if (DestroyItem)
+	{
+		if (ItemToDestroy)
+		{
+			ItemToDestroy->Destroy();
+			IsItemPickedUp = true;
+
+			FTimerHandle TimerHandle;
+			float DelayTime = 0.5;
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UInteractionCoreComponent::ResetIsItemPickedUp, DelayTime, false);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Item cast failed, or GetOwner() returned nullptr."));
+		}
+	}
+}
+
 #pragma endregion
 
 #pragma region "Helper Functions"
@@ -105,6 +125,11 @@ void UInteractionCoreComponent::ReTriggerDelay()
 
 		GetWorld()->GetTimerManager().SetTimer(TimeDelayHandle, TimerDel, Delay, false);
 	}
+}
+
+void UInteractionCoreComponent::ResetIsItemPickedUp()
+{
+	IsItemPickedUp = false;
 }
 
 #pragma endregion
