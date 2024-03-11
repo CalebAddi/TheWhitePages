@@ -27,7 +27,41 @@ void UInteractionBaseComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 void UInteractionCoreComponent::TraceForInteract(const FVector& Start, const FVector& End)
 {
-	// Move BP function logic into this cpp function
+	// Currently not finished
+	// FHitResult HitResult;
+    // FCollisionQueryParams QueryParams;
+    // QueryParams.AddIgnoredActor(GetOwner());
+    // QueryParams.bTraceComplex = false;
+
+	// bool HitCollide = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, QueryParams);
+
+	// if (HitCollide)
+	// {
+	// 	AActor* HitActor = HitResult.GetActor();
+	// 	if (HitActor != CurrentHitActor)
+	// 	{
+	// 		PrevHitActor = CurrentHitActor;
+    //         CurrentHitActor = HitActor; 
+    //         CanSetPrevious = true;
+    //         CurrentHoldDuration = 0.f;
+    //         // UpdateInteractState(true);
+	// 	}
+	// 	else
+	// 	{
+	// 		bool LocRecheckHit;
+	// 		GetRecheckHit(LocRecheckHit);
+
+	// 		if (LocRecheckHit)
+	// 		{
+	// 			DisableHitRecheck();
+	// 			// UpdateInteracState(true);
+	// 		}
+	// 	}
+	// }
+	// else
+	// {
+	// 	// Placeholder
+	// }
 }
 
 void UInteractionCoreComponent::DestroyItemOnPickup(const bool& DestroyItem, AActor* ItemToDestroy)
@@ -94,11 +128,7 @@ void UInteractionBaseComponent::DisableHitRecheck()
 
 void UInteractionBaseComponent::GetRecheckHit(bool& ReturnValue)
 {
-	if (RecheckHit)
-		ReturnValue = true;
-
-	else
-		ReturnValue = false;
+	ReturnValue = RecheckHit;
 }
 
 // void UInteractionBaseComponent::UpdateInteractState(bool HitResult)
