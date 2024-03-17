@@ -2,6 +2,7 @@
 #include "Components/BillboardComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Components/SceneCaptureComponent2D.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 APortalMaster::APortalMaster()
@@ -19,6 +20,8 @@ APortalMaster::APortalMaster()
 	ForwardDirection->SetupAttachment(PortalRootComponent);
 	PortalCamera = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("Camera"));
 	PortalCamera->SetupAttachment(PortalRootComponent);
+	PlayerDetection = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
+	PlayerDetection->SetupAttachment(PortalRootComponent);
 }
 
 // Called when the game starts or when spawned
