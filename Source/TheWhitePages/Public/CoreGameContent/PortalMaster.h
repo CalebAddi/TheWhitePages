@@ -9,6 +9,7 @@
 class UBillboardComponent;
 class UArrowComponent;
 class USceneCaptureComponent2D;
+class UBoxComponent;
 
 UCLASS()
 class THEWHITEPAGES_API APortalMaster : public AActor
@@ -30,6 +31,9 @@ class THEWHITEPAGES_API APortalMaster : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = true))
 	USceneCaptureComponent2D* PortalCamera;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = true))
+	UBoxComponent* PlayerDetection;
+
 public:	
 	APortalMaster();
 	virtual void Tick(float DeltaTime) override;
@@ -41,7 +45,13 @@ protected:
 	APortalMaster* LinkedPortal;
 
 private:	
-	// UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Portal Material", meta=(AllowPrivateAccess = true))
-	// UMaterialInstance* PortalMat;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Portal Physics", meta=(AllowPrivateAccess = true))
+	FVector LastPosition;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Portal Physics", meta=(AllowPrivateAccess = true))
+	bool LastInFront = false;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Portal Physics", meta=(AllowPrivateAccess = true))
+	float OffsetAmount = -4.f;
 
 };
