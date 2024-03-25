@@ -25,7 +25,7 @@ void UInteractionBaseComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 #pragma region "Interaction"
 
-void UInteractionCoreComponent::TraceForInteract(const FVector& Start, const FVector& End)
+void UInteractionCoreComponent::HoldItemOnPickup(const FVector& Start, const FVector& End)
 {
 	// Currently not finished
 	// FHitResult HitResult;
@@ -71,7 +71,7 @@ void UInteractionCoreComponent::DestroyItemOnPickup(const bool& DestroyItem, AAc
 		if (ItemToDestroy)
 		{
 			ItemToDestroy->Destroy();
-			IsItemPickedUp = true;
+			ItemValues.IsItemPickedUp = true;
 
 			FTimerHandle TimerHandle;
 			float DelayTime = 0.5;
@@ -156,7 +156,7 @@ void UInteractionCoreComponent::ReTriggerDelay()
 
 void UInteractionCoreComponent::ResetIsItemPickedUp()
 {
-	IsItemPickedUp = false;
+	ItemValues.IsItemPickedUp = false;
 }
 
 #pragma endregion
