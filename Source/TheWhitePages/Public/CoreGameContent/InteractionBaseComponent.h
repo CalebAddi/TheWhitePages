@@ -4,6 +4,27 @@
 #include "Components/ActorComponent.h"
 #include "InteractionBaseComponent.generated.h"
 
+USTRUCT(BlueprintType)
+struct FItemInteractValues
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
+	bool IsButton;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
+	bool IsPickup;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
+	bool IsHoldableItem;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Item Interaction")
+	bool IsItemPickedUp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
+	bool ShouldDestroyItem;
+};
+
 
 #pragma region "Base Component Class"
 
@@ -36,6 +57,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Interact)
 	float InteractDistance = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
+	FItemInteractValues ItemValues;
 
 
 	// Functions
@@ -88,22 +112,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Interact Ticks")
 	float UpdateFrequency;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
-	bool IsButton;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
-	bool IsPickup;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Interaction")
-	bool IsHoldableItem;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Interact Ticks")
-	bool IsItemPickedUp;
-
 
 	// Functions
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void TraceForInteract(const FVector& Start, const FVector& End);
+	void HoldItemOnPickup(const FVector& Start, const FVector& End);
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void ReTriggerDelay();
