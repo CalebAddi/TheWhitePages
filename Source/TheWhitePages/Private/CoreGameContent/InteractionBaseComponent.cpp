@@ -25,45 +25,6 @@ void UInteractionBaseComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 #pragma region "Interaction"
 
-void UInteractionCoreComponent::HoldItemOnPickup(const FVector& Start, const FVector& End)
-{
-	// Currently not finished
-	// FHitResult HitResult;
-    // FCollisionQueryParams QueryParams;
-    // QueryParams.AddIgnoredActor(GetOwner());
-    // QueryParams.bTraceComplex = false;
-
-	// bool HitCollide = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, QueryParams);
-
-	// if (HitCollide)
-	// {
-	// 	AActor* HitActor = HitResult.GetActor();
-	// 	if (HitActor != CurrentHitActor)
-	// 	{
-	// 		PrevHitActor = CurrentHitActor;
-    //         CurrentHitActor = HitActor; 
-    //         CanSetPrevious = true;
-    //         CurrentHoldDuration = 0.f;
-    //         // UpdateInteractState(true);
-	// 	}
-	// 	else
-	// 	{
-	// 		bool LocRecheckHit;
-	// 		GetRecheckHit(LocRecheckHit);
-
-	// 		if (LocRecheckHit)
-	// 		{
-	// 			DisableHitRecheck();
-	// 			// UpdateInteracState(true);
-	// 		}
-	// 	}
-	// }
-	// else
-	// {
-	// 	// Placeholder
-	// }
-}
-
 void UInteractionCoreComponent::DestroyItemOnPickup(const bool& DestroyItem, AActor* ItemToDestroy)
 {
 	if (DestroyItem)

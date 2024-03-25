@@ -46,6 +46,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hit Interact")
 	AActor* PrevHitActor;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hit Interact")
+	AActor* PickupActor;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Interact)
 	float InteractHoldTimer = 0.f;
 
@@ -112,11 +115,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Interact Ticks")
 	float UpdateFrequency;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Item Interaction")
+	bool IsCurrentlyHoldingItem;
+
 
 	// Functions
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	void HoldItemOnPickup(const FVector& Start, const FVector& End);
-
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void ReTriggerDelay();
 
