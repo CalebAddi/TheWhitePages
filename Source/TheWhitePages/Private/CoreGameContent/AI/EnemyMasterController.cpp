@@ -2,7 +2,8 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
-
+#include "Perception/AIPerceptionComponent.h"
+#include "Perception/AISense_Sight.h"
 
 void AEnemyMasterController::InstantiateBehaviorTree()
 {
@@ -11,6 +12,7 @@ void AEnemyMasterController::InstantiateBehaviorTree()
         RunBehaviorTree(BehaviorTreeAsset);
         BlackboardComp = GetBlackboardComponent();
     }
+    AIPerceptionComp = Cast<UAIPerceptionComponent>(GetComponentByClass(UAIPerceptionComponent::StaticClass()));
 }
 
 #pragma region "AI States"
@@ -32,6 +34,15 @@ void AEnemyMasterController::SetStateAsSearching(const FVector& Location)
     }
 }
 
+void AEnemyMasterController::SetStateAsSeekingTarget(const FVector& Location)
+{
+    if (BlackboardComp)
+    {
+        BlackboardComp->SetValueAsEnum(KeyNames.StateKeyName, static_cast<uint8>(EAIEnemyState::SeekingTarget));
+        BlackboardComp->SetValueAsVector(KeyNames.POIKeyName, Location);
+    }
+}
+
 void AEnemyMasterController::SetStateAsAttacking(AActor* AttackTarget)
 {
     if (AttackTarget != nullptr && BlackboardComp)
@@ -47,10 +58,16 @@ void AEnemyMasterController::GetCurrentState(EAIEnemyState& State) const
     State = static_cast<EAIEnemyState>(Value);
 }
 
+#pragma endregion
+
+#pragma region "AI Detection / Perception"
+
 void AEnemyMasterController::HandleSensedSight(AActor* Actor)
 {
     if (Actor && BlackboardComp)
     {
+        KnownSeenActors.AddUnique(Actor);
+
         EAIEnemyState CurrState;
         GetCurrentState(CurrState);
 
@@ -80,5 +97,50 @@ void AEnemyMasterController::HandleSensedSound(const FVector& SoundLocation)
         }
     }
 }
+
+void AEnemyMasterController::HandleForgottenActor(AActor* Actor)
+{
+    if (Actor)
+    {
+        KnownSeenActors.Remove(Actor);
+        SetStateAsPassive();
+    }
+}
+
+void AEnemyMasterController::HandleLostSight(AActor* Actor)
+{
+    if (Actor && BlackboardComp)
+    {
+        EAIEnemyState CurrState;
+        GetCurrentState(CurrState);
+
+        if (CurrState == EAIEnemyState::Aggro || CurrState == EAIEnemyState::Searching || CurrState == EAIEnemyState::Frozen)
+        {
+            FVector Location = Actor->GetActorLocation();
+            SetStateAsSeekingTarget(Location);
+        }
+    }
+}
+
+void AEnemyMasterController::CheckForgottenSceneActor()
+{
+    if (AIPerceptionComp)
+    {
+        TArray<AActor*> CurrPerceivedActors;
+        AIPerceptionComp->GetKnownPerceivedActors(UAISense_Sight::StaticClass(), CurrPerceivedActors);
+
+        if (KnownSeenActors.Num() != CurrPerceivedActors.Num())
+        {
+            for (AActor* SeenActor : KnownSeenActors)
+            {
+                if (CurrPerceivedActors.Find(SeenActor) == INDEX_NONE)
+                {
+                    HandleForgottenActor(SeenActor);
+                }
+            }
+        }
+    }
+}
+
 
 #pragma endregion

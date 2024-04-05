@@ -13,7 +13,7 @@ EBTNodeResult::Type UBTTask_FocusToTarget::ExecuteTask(UBehaviorTreeComponent& O
     {
         if (auto* const Controller = Cast<AEnemyMasterController>(OwnerComp.GetAIOwner()))
         {
-            if (AActor* TargetActor = Cast<AActor>(BlackboardComp->GetValueAsObject(AttackTargetKey.SelectedKeyName)))
+            if (AActor* TargetActor = Cast<AActor>(BlackboardComp->GetValueAsObject(FocusTargetKey.SelectedKeyName)))
             {
                 Controller->SetFocus(TargetActor);
             }

@@ -5,6 +5,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "EnemyMasterController.generated.h"
 
+#pragma region "Structs and Enums"
 USTRUCT(BlueprintType)
 struct FKeyNameVariables
 {
@@ -26,7 +27,8 @@ enum class EAIEnemyState : uint8
 	Passive UMETA(DisplayName="Passive"),
 	Aggro UMETA(DisplayName="Aggro"),
 	Frozen UMETA(DisplayName="Frozen"),
-	Searching UMETA(DisplayName="Searching")
+	Searching UMETA(DisplayName="Searching"),
+	SeekingTarget UMETA(DisplayName="SeekingTarget")
 };
 
 UENUM(BlueprintType)
@@ -36,6 +38,8 @@ enum class EAIDetectionState : uint8
 	Sight UMETA(DisplayName="Sight"),
 	Hearing UMETA(DisplayName="Hearing")
 };
+
+#pragma endregion
 
 UCLASS()
 class THEWHITEPAGES_API AEnemyMasterController : public AAIController
@@ -52,6 +56,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tree)
 	UBehaviorTree* BehaviorTreeAsset;
 
+
 	UFUNCTION(BlueprintCallable, Category = "AI State")
 	void SetStateAsPassive();
 
@@ -61,9 +66,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AI State")
 	void SetStateAsAttacking(AActor* AttackTarget);
 
+	UFUNCTION(BlueprintCallable, Category = "AI State")
+	void SetStateAsSeekingTarget(const FVector& Location);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Keys)
 	FKeyNameVariables KeyNames;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AI Perception")
+	TArray<AActor*> KnownSeenActors;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AI Perception")
+	FTimerHandle ForgottenActorsTimer;
+
 
 	UFUNCTION(BlueprintCallable, Category = Tree)
 	void InstantiateBehaviorTree();
@@ -77,9 +92,20 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "AI Detection")
 	void HandleSensedSound(const FVector& SoundLocation);
 
+	UFUNCTION(BlueprintCallable, Category = "AI Detection")
+	void HandleForgottenActor(AActor* Actor);
+
+	UFUNCTION(BlueprintCallable, Category = "AI Detection")
+	void HandleLostSight(AActor* Actor);
+
+	UFUNCTION(BlueprintCallable, Category = "AI Detection")
+	void CheckForgottenSceneActor();
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=Blackboard, meta=(AllowPrivateAccess="true"))
 	UBlackboardComponent* BlackboardComp;
+
+	UPROPERTY()
+	UAIPerceptionComponent* AIPerceptionComp;
 
 };
