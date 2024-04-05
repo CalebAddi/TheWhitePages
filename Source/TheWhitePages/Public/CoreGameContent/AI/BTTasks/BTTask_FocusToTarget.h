@@ -17,7 +17,7 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Keys)
-	FBlackboardKeySelector AttackTargetKey;
+	FBlackboardKeySelector FocusTargetKey;
 
 private:
 
