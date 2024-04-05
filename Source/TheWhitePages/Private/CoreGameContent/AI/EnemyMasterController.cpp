@@ -29,8 +29,8 @@ void AEnemyMasterController::SetStateAsSearching(const FVector& Location)
 {
     if (BlackboardComp)
     {
-        BlackboardComp->SetValueAsEnum(KeyNames.StateKeyName, static_cast<uint8>(EAIEnemyState::Searching));
         BlackboardComp->SetValueAsVector(KeyNames.POIKeyName, Location);
+        BlackboardComp->SetValueAsEnum(KeyNames.StateKeyName, static_cast<uint8>(EAIEnemyState::Searching));
     }
 }
 
@@ -38,8 +38,8 @@ void AEnemyMasterController::SetStateAsSeekingTarget(const FVector& Location)
 {
     if (BlackboardComp)
     {
-        BlackboardComp->SetValueAsEnum(KeyNames.StateKeyName, static_cast<uint8>(EAIEnemyState::SeekingTarget));
         BlackboardComp->SetValueAsVector(KeyNames.POIKeyName, Location);
+        BlackboardComp->SetValueAsEnum(KeyNames.StateKeyName, static_cast<uint8>(EAIEnemyState::SeekingTarget));
     }
 }
 
@@ -71,7 +71,7 @@ void AEnemyMasterController::HandleSensedSight(AActor* Actor)
         EAIEnemyState CurrState;
         GetCurrentState(CurrState);
 
-        if (CurrState == EAIEnemyState::Passive || CurrState == EAIEnemyState::Searching)
+        if (CurrState == EAIEnemyState::Passive || CurrState == EAIEnemyState::Searching || CurrState == EAIEnemyState::SeekingTarget)
         {
             ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
             
@@ -90,7 +90,7 @@ void AEnemyMasterController::HandleSensedSound(const FVector& SoundLocation)
         EAIEnemyState CurrState;
         GetCurrentState(CurrState);
 
-        if (CurrState == EAIEnemyState::Passive || CurrState == EAIEnemyState::Searching)
+        if (CurrState == EAIEnemyState::Passive || CurrState == EAIEnemyState::Searching || CurrState == EAIEnemyState::SeekingTarget)
         {
             FVector CurrLocation = SoundLocation;
             SetStateAsSearching(CurrLocation);
@@ -113,11 +113,15 @@ void AEnemyMasterController::HandleLostSight(AActor* Actor)
     {
         EAIEnemyState CurrState;
         GetCurrentState(CurrState);
+        ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
 
-        if (CurrState == EAIEnemyState::Aggro || CurrState == EAIEnemyState::Searching || CurrState == EAIEnemyState::Frozen)
+        if (Actor == PlayerCharacter)
         {
-            FVector Location = Actor->GetActorLocation();
-            SetStateAsSeekingTarget(Location);
+            if (CurrState == EAIEnemyState::Aggro || CurrState == EAIEnemyState::Frozen)
+            {
+                FVector Location = Actor->GetActorLocation();
+                SetStateAsSeekingTarget(Location);
+            }
         }
     }
 }
