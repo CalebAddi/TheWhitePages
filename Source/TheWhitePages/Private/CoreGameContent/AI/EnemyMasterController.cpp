@@ -126,25 +126,25 @@ void AEnemyMasterController::HandleLostSight(AActor* Actor)
     }
 }
 
-void AEnemyMasterController::CheckForgottenSceneActor()
-{
-    if (AIPerceptionComp)
-    {
-        TArray<AActor*> CurrPerceivedActors;
-        AIPerceptionComp->GetKnownPerceivedActors(UAISense_Sight::StaticClass(), CurrPerceivedActors);
+// void AEnemyMasterController::CheckForgottenSceneActor()
+// {
+//     if (AIPerceptionComp)
+//     {
+//         TArray<AActor*> CurrPerceivedActors;
+//         AIPerceptionComp->GetKnownPerceivedActors(UAISense_Sight::StaticClass(), CurrPerceivedActors);
 
-        if (KnownSeenActors.Num() != CurrPerceivedActors.Num())
-        {
-            for (AActor* SeenActor : KnownSeenActors)
-            {
-                if (CurrPerceivedActors.Find(SeenActor) == INDEX_NONE)
-                {
-                    HandleForgottenActor(SeenActor);
-                }
-            }
-        }
-    }
-}
+//         if (KnownSeenActors.Num() != CurrPerceivedActors.Num())
+//         {
+//             for (AActor* SeenActor : KnownSeenActors)
+//             {
+//                 if (CurrPerceivedActors.Find(SeenActor) == INDEX_NONE)
+//                 {
+//                     HandleForgottenActor(SeenActor);
+//                 }
+//             }
+//         }
+//     }
+// }
 
 
 #pragma endregion

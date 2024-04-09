@@ -98,8 +98,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "AI Detection")
 	void HandleLostSight(AActor* Actor);
 
-	UFUNCTION(BlueprintCallable, Category = "AI Detection")
-	void CheckForgottenSceneActor();
+	// UFUNCTION(BlueprintCallable, Category = "AI Detection")
+	// void CheckForgottenSceneActor();
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=Blackboard, meta=(AllowPrivateAccess="true"))
