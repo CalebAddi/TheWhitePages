@@ -70,14 +70,21 @@ void AEnemyMasterController::HandleSensedSight(AActor* Actor)
 
         EAIEnemyState CurrState;
         GetCurrentState(CurrState);
+        ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
 
         if (CurrState == EAIEnemyState::Passive || CurrState == EAIEnemyState::Searching || CurrState == EAIEnemyState::SeekingTarget)
-        {
-            ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
-            
+        {            
             if (Actor == PlayerCharacter)
             {
                 SetStateAsAttacking(Actor);
+            }
+        }
+
+        if (Actor == PlayerCharacter && CurrState == EAIEnemyState::Aggro)
+        {
+            if (GetWorld()->GetTimerManager().IsTimerActive(SeekAttackTargetTimer))
+            {
+                GetWorld()->GetTimerManager().ClearTimer(SeekAttackTargetTimer);
             }
         }
     }
@@ -107,6 +114,17 @@ void AEnemyMasterController::HandleForgottenActor(AActor* Actor)
     }
 }
 
+void AEnemyMasterController::SeekingAttackTarget(AActor* Actor)
+{
+    FVector Location = Actor->GetActorLocation();
+    SetStateAsSeekingTarget(Location);
+
+    if (GetWorld()->GetTimerManager().IsTimerActive(SeekAttackTargetTimer))
+    {
+        GetWorld()->GetTimerManager().ClearTimer(SeekAttackTargetTimer);
+    }
+}
+
 void AEnemyMasterController::HandleLostSight(AActor* Actor)
 {
     if (Actor && BlackboardComp)
@@ -119,32 +137,21 @@ void AEnemyMasterController::HandleLostSight(AActor* Actor)
         {
             if (CurrState == EAIEnemyState::Aggro || CurrState == EAIEnemyState::Frozen)
             {
-                FVector Location = Actor->GetActorLocation();
-                SetStateAsSeekingTarget(Location);
+                if (GetWorld()->GetTimerManager().IsTimerActive(SeekAttackTargetTimer))
+                {
+                    GetWorld()->GetTimerManager().ClearTimer(SeekAttackTargetTimer);
+                }
+
+                FTimerDelegate TimerDel;
+                TimerDel.BindLambda([this, Actor]() 
+                {
+                    this->SeekingAttackTarget(Actor);
+                });
+
+                GetWorld()->GetTimerManager().SetTimer(SeekAttackTargetTimer, TimerDel, TimeSeekingAfterLostSight, false);
             }
         }
     }
 }
-
-// void AEnemyMasterController::CheckForgottenSceneActor()
-// {
-//     if (AIPerceptionComp)
-//     {
-//         TArray<AActor*> CurrPerceivedActors;
-//         AIPerceptionComp->GetKnownPerceivedActors(UAISense_Sight::StaticClass(), CurrPerceivedActors);
-
-//         if (KnownSeenActors.Num() != CurrPerceivedActors.Num())
-//         {
-//             for (AActor* SeenActor : KnownSeenActors)
-//             {
-//                 if (CurrPerceivedActors.Find(SeenActor) == INDEX_NONE)
-//                 {
-//                     HandleForgottenActor(SeenActor);
-//                 }
-//             }
-//         }
-//     }
-// }
-
 
 #pragma endregion
