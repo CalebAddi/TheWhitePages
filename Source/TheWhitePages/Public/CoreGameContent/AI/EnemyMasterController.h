@@ -79,6 +79,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AI Perception")
 	FTimerHandle ForgottenActorsTimer;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AI Perception")
+	FTimerHandle SeekAttackTargetTimer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI Perception")
+	float TimeSeekingAfterLostSight;
+
 
 	UFUNCTION(BlueprintCallable, Category = Tree)
 	void InstantiateBehaviorTree();
@@ -98,14 +104,14 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "AI Detection")
 	void HandleLostSight(AActor* Actor);
 
-	UFUNCTION(BlueprintCallable, Category = "AI Detection")
-	void CheckForgottenSceneActor();
-
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=Blackboard, meta=(AllowPrivateAccess="true"))
 	UBlackboardComponent* BlackboardComp;
 
 	UPROPERTY()
 	UAIPerceptionComponent* AIPerceptionComp;
+
+	UFUNCTION()
+	void SeekingAttackTarget(AActor* Actor);
 
 };
