@@ -119,6 +119,7 @@ void AEnemyMasterController::SeekingAttackTarget(AActor* Actor)
     FVector Location = Actor->GetActorLocation();
     SetStateAsSeekingTarget(Location);
 
+    // Clear and invalidate timer by handle
     if (GetWorld()->GetTimerManager().IsTimerActive(SeekAttackTargetTimer))
     {
         GetWorld()->GetTimerManager().ClearTimer(SeekAttackTargetTimer);
@@ -146,7 +147,7 @@ void AEnemyMasterController::HandleLostSight(AActor* Actor)
                 TimerDel.BindLambda([this, Actor]() 
                 {
                     this->SeekingAttackTarget(Actor);
-                });
+                }); // Similar to a set timer by function name but since it needs an input to pass through you use BindLamda
 
                 GetWorld()->GetTimerManager().SetTimer(SeekAttackTargetTimer, TimerDel, TimeSeekingAfterLostSight, false);
             }
