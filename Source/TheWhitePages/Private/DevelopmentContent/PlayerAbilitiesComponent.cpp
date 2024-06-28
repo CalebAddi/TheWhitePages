@@ -33,16 +33,16 @@ void UPlayerAbilitiesComponent::DrainStamina()
 {
 	StaminaRegenValues.IsRegenStamina = false;
 
-	float StaminaClampCalc = CurrStamina - StaminaDrainValues.StaminaDrainAmount * StaminaDrainValues.StaminaDrainAdjustCalc;
-	CurrStamina = FMath::Clamp(StaminaClampCalc, 0.f, MaxStamina);
+	float StaminaClampCalc = StaminaValue.CurrStamina - StaminaDrainValues.StaminaDrainAmount * StaminaDrainValues.StaminaDrainAdjustCalc;
+	StaminaValue.CurrStamina = FMath::Clamp(StaminaClampCalc, 0.f, StaminaValue.MaxStamina);
 
-	if (CurrStamina == 0.f)
+	if (StaminaValue.CurrStamina == 0.f)
 	{
 		StopSprint();
 		StaminaDrainValues.IsDrainingStamina = false;
 	}
 
-	else if (IsSprinting && IsMoving && !StaminaRegenValues.IsRegenStamina)
+	else if (MovementValue.IsSprinting && MovementValue.IsMoving && !StaminaRegenValues.IsRegenStamina)
 	{
 		float SprintDelay = 0.05f;
 		GetWorld()->GetTimerManager().SetTimer(StaminaTimeHandle, this, &UPlayerAbilitiesComponent::StaminaLoopDrain, SprintDelay, false);
@@ -56,10 +56,10 @@ void UPlayerAbilitiesComponent::DrainStamina()
 
 void UPlayerAbilitiesComponent::RegenStamina()
 {
-	float StaminaClampCalc = CurrStamina + StaminaRegenValues.StaminaRegenAmount * StaminaRegenValues.StaminaRegenAdjustCalc;
-	CurrStamina = FMath::Clamp(StaminaClampCalc, 0.f, MaxStamina);
+	float StaminaClampCalc = StaminaValue.CurrStamina + StaminaRegenValues.StaminaRegenAmount * StaminaRegenValues.StaminaRegenAdjustCalc;
+	StaminaValue.CurrStamina = FMath::Clamp(StaminaClampCalc, 0.f, StaminaValue.MaxStamina);
 
-	if (CurrStamina != 0 && !IsSprinting && !StaminaDrainValues.IsDrainingStamina)
+	if (StaminaValue.CurrStamina != 0 && !MovementValue.IsSprinting && !StaminaDrainValues.IsDrainingStamina)
 	{
 		float SprintDelay = 0.55f;
 		GetWorld()->GetTimerManager().SetTimer(StaminaTimeHandle, this, &UPlayerAbilitiesComponent::StaminaLoopRegain, SprintDelay, false);
@@ -70,8 +70,8 @@ void UPlayerAbilitiesComponent::StartSprint()
 {
 	if (MovementComponentRef)
 	{
-		MovementComponentRef->MaxWalkSpeed = SprintSpeed;
-		IsSprinting = true;
+		MovementComponentRef->MaxWalkSpeed = MovementValue.SprintSpeed;
+		MovementValue.IsSprinting = true;
 		DrainStamina();
 	}
 }
@@ -80,8 +80,8 @@ void UPlayerAbilitiesComponent::StopSprint()
 {
 	if (MovementComponentRef)
 	{
-		MovementComponentRef->MaxWalkSpeed = WalkingSpeed;
-		IsSprinting = false;
+		MovementComponentRef->MaxWalkSpeed = MovementValue.WalkSpeed;
+		MovementValue.IsSprinting = false;
 		float RegenDelayAmount = 1.f;
 		GetWorld()->GetTimerManager().SetTimer(StaminaTimeHandle, this, &UPlayerAbilitiesComponent::RegenDelay, RegenDelayAmount, false);
 	}
@@ -93,13 +93,13 @@ void UPlayerAbilitiesComponent::StopSprint()
 
 void UPlayerAbilitiesComponent::StartDash()
 {
-	if (!CanDash || IsDashing || CurrStamina <= 15.f || !CharacterOwner)
+	if (!DashValue.CanDash || DashValue.IsDashing || StaminaValue.CurrStamina <= 15.f || !CharacterOwner)
 		return;
 
 	FVector DashDir;
 	if (CharacterOwner)
 	{
-		if (!IsMoving)
+		if (!MovementValue.IsMoving)
 		{
 			DashDir = CharacterOwner->GetActorForwardVector();
 		}
@@ -110,26 +110,26 @@ void UPlayerAbilitiesComponent::StartDash()
 
 		MovementComponentRef->BrakingFrictionFactor = 0.f;
 		DashDir.Normalize();
-		CharacterOwner->LaunchCharacter(DashDir * DashSpeed, true, true);
+		CharacterOwner->LaunchCharacter(DashDir * DashValue.DashSpeed, true, true);
 	}
 
-	IsDashing = true;
-	CanDash = false;
+	DashValue.IsDashing = true;
+	DashValue.CanDash = false;
 
-	GetWorld()->GetTimerManager().SetTimer(DashTimeHandle, this, &UPlayerAbilitiesComponent::StopDash, DashDuration, false);
-	GetWorld()->GetTimerManager().SetTimer(DashCooldownHandle, this, &UPlayerAbilitiesComponent::ResetDashCooldown, DashCoolDown, false);
+	GetWorld()->GetTimerManager().SetTimer(DashTimeHandle, this, &UPlayerAbilitiesComponent::StopDash, DashValue.DashDuration, false);
+	GetWorld()->GetTimerManager().SetTimer(DashCooldownHandle, this, &UPlayerAbilitiesComponent::ResetDashCooldown, DashValue.DashCoolDown, false);
 }
 
 void UPlayerAbilitiesComponent::StopDash()
 {
-	IsDashing = false;
+	DashValue.IsDashing = false;
 	MovementComponentRef->StopMovementImmediately();
 	MovementComponentRef->BrakingFrictionFactor = 2.f;
 }
 
 void UPlayerAbilitiesComponent::ResetDashCooldown()
 {
-	CanDash = true;
+	DashValue.CanDash = true;
 }
 
 #pragma endregion
@@ -146,7 +146,7 @@ void UPlayerAbilitiesComponent::StaminaLoopRegain()
 {
 	StaminaRegenValues.IsRegenStamina = true;
 
-	if (CurrStamina == MaxStamina)
+	if (StaminaValue.CurrStamina == StaminaValue.MaxStamina)
 	{
 		StaminaRegenValues.IsRegenStamina = false;
 	}
@@ -169,11 +169,6 @@ void UPlayerAbilitiesComponent::KillPlayer(const bool& IsPlayerDead)
 	{
 		CharacterOwner->DisableInput(PlayerController);
 		CharacterOwner->K2_DestroyActor();
-	}
-
-	if (GEngine)
-	{
-		GEngine->ForceGarbageCollection(true);
 	}
 }
 
